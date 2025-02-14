@@ -1,33 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
 import EventCard from "../components/EventCard";
 import Button from "../components/Button";
 import InputField from "../components/InputField";
-import Footer from "../components/Footer";
 import "../css/Home.css";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 100) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <div className="home-container">
-      <Navbar />
-
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
@@ -37,14 +19,20 @@ const Home = () => {
         </div>
       </section>
 
-      {/* About Section with Scrolling Effect */}
-      <section className={`about-section ${scrolled ? "scrolled" : ""}`}>
+      {/* About Section - Improved */}
+      <section className="about-section">
         <div className="about-content">
           <h2>About the Conference</h2>
           <p>
-            Our conference brings together industry experts, professionals, and enthusiasts to 
-            share insights, network, and explore new opportunities.
+            Join top industry leaders, professionals, and tech enthusiasts at our annual 
+            conference. Gain insights into the latest trends, engage in thought-provoking discussions, 
+            and expand your professional network.
           </p>
+          <p>
+            Whether you're a developer, entrepreneur, or just curious about emerging technologies, 
+            our conference is the place to be!
+          </p>
+          <Button text="Learn More" onClick={() => navigate("/about")} />
         </div>
       </section>
 
@@ -58,7 +46,7 @@ const Home = () => {
         <Button text="View All Events" onClick={() => navigate("/events")} />
       </section>
 
-      {/* Contact Section */}
+      {/* Contact Section - Improved */}
       <section className="contact-section">
         <h2>Contact Us</h2>
         <div className="contact-form">
@@ -72,8 +60,6 @@ const Home = () => {
           <p>🌐 Follow us on Social Media</p>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 };

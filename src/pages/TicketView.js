@@ -6,12 +6,25 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import "../css/TicketView.css";
 
 const TicketView = () => {
-  const [tickets, setTickets, deleteTickets] = useLocalStorage("userTickets", []);
+  const [tickets, setTickets] = useLocalStorage("tickets", []);
 
-  const handleDelete = () => {
-    deleteTickets(); // Clear stored tickets
-    setTickets([]); // Reset state
+  // Delete single ticket by filtering it out
+  const handleDelete = (index) => {
+    const updatedTickets = tickets.filter((_, i) => i !== index);
+    setTickets(updatedTickets);
   };
+
+  // Clear all tickets
+  const clearAllTickets = () => {
+    setTickets([]);
+  };
+
+  // Group tickets by event name
+  const groupedTickets = tickets.reduce((acc, ticket) => {
+    acc[ticket.event] = acc[ticket.event] || [];
+    acc[ticket.event].push(ticket);
+    return acc;
+  }, {});
 
   return (
     <div className="ticket-view-container">
@@ -21,15 +34,21 @@ const TicketView = () => {
 
         {tickets.length > 0 ? (
           <>
-            {tickets.map((ticket, index) => (
-              <TicketDisplay 
-                key={index}
-                name={ticket.name}
-                email={ticket.email}
-                avatar={ticket.avatar}
-                onDelete={handleDelete}
-              />
+            {Object.entries(groupedTickets).map(([event, eventTickets]) => (
+              <div key={event} className="event-ticket-group">
+                <h2 className="event-title">{event}</h2>
+                {eventTickets.map((ticket, index) => (
+                  <TicketDisplay 
+                    key={index}
+                    name={ticket.name}
+                    email={ticket.email}
+                    avatar={ticket.avatar}
+                    onDelete={() => handleDelete(index)}
+                  />
+                ))}
+              </div>
             ))}
+            <button className="clear-tickets-button" onClick={clearAllTickets}>Clear All Tickets</button>
           </>
         ) : (
           <p className="no-ticket-message">No tickets found. Generate one now!</p>

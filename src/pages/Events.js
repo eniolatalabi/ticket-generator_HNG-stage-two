@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import EventCard from "../components/EventCard";
 import Button from "../components/Button";
 import Footer from "../components/Footer";
-import "../css/EventPage.css";
+import "../css/Events.css";
 
 const EventPage = () => {
   const navigate = useNavigate();

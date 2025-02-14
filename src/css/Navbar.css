@@ -1,0 +1,131 @@
+.navbar {
+    background-color: #071A1E;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar-container {
+    width: 90%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* Logo */
+  .logo {
+    color: #A8E6E7; 
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .logo span {
+    color: #23A6A7; 
+  }
+  
+  /* Navigation Links */
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .nav-links li a {
+    color: #6C8A8B; 
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .nav-links li a:hover, .nav-links .active {
+    color: #A8E6E7; 
+  }
+  
+  /* Get Ticket Button */
+  .btn-primary {
+    background-color: #23A6A7;
+    color: white;
+    padding: 0.6rem 1.4rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: #1b8788;
+  }
+  
+  /* Hides Get Ticket on Mobile */
+  .hide-on-mobile {
+    display: block;
+  }
+  .hide-on-desktop {
+    display: none;
+  }
+  
+  /* HAMBURGER MENU */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+  }
+  
+  .hamburger span {
+    width: 28px;
+    height: 3px;
+    background: #A8E6E7;
+    border-radius: 3px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Hamburger Open Effect */
+  .hamburger.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .hamburger.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+  
+  /* Mobile Nav */
+  @media (max-width: 900px) {
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #0D2A2E;
+      width: 250px;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1.5rem;
+      border-radius: 10px;
+      display: none;
+    }
+  
+    .nav-links.open {
+      display: flex;
+    }
+  
+    .hide-on-mobile {
+      display: none;
+    }
+    .hide-on-desktop {
+      display: block;
+    }
+  
+    .hamburger {
+      display: flex;
+    }
+  }
+  

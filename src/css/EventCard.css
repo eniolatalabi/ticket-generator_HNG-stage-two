@@ -1,0 +1,61 @@
+.event-card {
+    background-color: #0D2A2E; /* Darker Cyan */
+    border: 2px solid #23A6A7; /* Vibrant Teal */
+    border-radius: 8px;
+    padding: 16px;
+    color: #A8E6E7; /* Light Cyan */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .event-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(35, 166, 167, 0.3); /* Soft glow */
+  }
+  
+  .event-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #6C8A8B; /* Grayish Cyan */
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .event-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  
+  .event-date {
+    font-size: 1rem;
+    color: #6C8A8B; /* Muted Cyan */
+  }
+  
+  .event-location {
+    font-size: 1rem;
+    font-style: italic;
+    color: #A8E6E7;
+  }
+  
+  .event-description {
+    font-size: 1rem;
+    margin: 10px 0;
+    color: #6C8A8B;
+  }
+  
+  .event-button {
+    background-color: #23A6A7; /* Vibrant Teal */
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 16px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .event-button:hover {
+    background-color: #1E8D8E;
+  }
+  

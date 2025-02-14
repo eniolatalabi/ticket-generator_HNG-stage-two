@@ -1,0 +1,58 @@
+.ticket-display {
+    background-color: #0D2A2E; /* Darker Cyan */
+    border: 2px solid #23A6A7; /* Vibrant Teal */
+    border-radius: 10px;
+    padding: 20px;
+    color: #A8E6E7; /* Light Cyan */
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+  
+  .ticket-title {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+  
+  .ticket-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .ticket-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #23A6A7; /* Vibrant Teal */
+  }
+  
+  .ticket-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .ticket-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #A8E6E7;
+  }
+  
+  .ticket-email {
+    font-size: 1rem;
+    color: #6C8A8B; /* Muted Cyan */
+  }
+  
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

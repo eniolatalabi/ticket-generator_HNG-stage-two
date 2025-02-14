@@ -1,0 +1,42 @@
+.btn {
+    background-color: #23A6A7; /* Primary button color */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .btn:hover {
+    background-color: #1b8788; /* Darker shade for hover */
+  }
+  
+  .btn:disabled {
+    background-color: #6C8A8B; /* Muted color for disabled state */
+    cursor: not-allowed;
+  }
+  
+  /* Additional styles for variations */
+  .btn.outline {
+    background-color: transparent;
+    color: #23A6A7;
+    border: 2px solid #23A6A7;
+  }
+  
+  .btn.outline:hover {
+    background-color: #23A6A7;
+    color: white;
+  }
+  
+  .btn.secondary {
+    background-color: #071A1E;
+    color: white;
+  }
+  
+  .btn.secondary:hover {
+    background-color: #0D2A2E;
+  }
+  

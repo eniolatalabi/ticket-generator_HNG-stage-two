@@ -1,124 +1,79 @@
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Parallax } from "react-parallax";
-import "../css/Home";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import EventCard from "../components/EventCard";
+import Button from "../components/Button";
+import InputField from "../components/InputField";
+import Footer from "../components/Footer";
+import "../css/Home.css";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="home-container">
+      <Navbar />
+
       {/* Hero Section */}
       <section className="hero-section">
-        <motion.div 
-          className="hero-content"
-          initial={{ opacity: 0, y: 20 }} 
-          animate={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 1 }}
-        >
-          <h1>The Ultimate Tech Conference</h1>
-          <p>Connect. Learn. Innovate. Join industry leaders and tech pioneers.</p>
-          <Link to="/ticket">
-            <motion.button 
-              className="cta-button"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Get Ticket
-            </motion.button>
-          </Link>
-        </motion.div>
-      </section>
-
-      {/* Event Highlights */}
-      <section className="event-highlights">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }} 
-          whileInView={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.8 }}
-        >
-          Event Highlights
-        </motion.h2>
-        <div className="highlights-grid">
-          <motion.div 
-            className="highlight-card"
-            initial={{ opacity: 0, scale: 0.9 }} 
-            whileInView={{ opacity: 1, scale: 1 }} 
-            transition={{ duration: 0.8 }}
-          >
-            <h3>🌍 Global Speakers</h3>
-            <p>Hear from top tech leaders & visionaries.</p>
-          </motion.div>
-          <motion.div 
-            className="highlight-card"
-            initial={{ opacity: 0, scale: 0.9 }} 
-            whileInView={{ opacity: 1, scale: 1 }} 
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <h3>💡 Cutting-Edge Topics</h3>
-            <p>AI, Blockchain, Web3, and more.</p>
-          </motion.div>
-          <motion.div 
-            className="highlight-card"
-            initial={{ opacity: 0, scale: 0.9 }} 
-            whileInView={{ opacity: 1, scale: 1 }} 
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <h3>🤝 Networking</h3>
-            <p>Meet top professionals & build your network.</p>
-          </motion.div>
+        <div className="hero-content">
+          <h1>Welcome to the Conference Ticket Generator</h1>
+          <p>Generate tickets seamlessly for upcoming events.</p>
+          <Button text="View All Events" onClick={() => navigate("/events")} />
         </div>
       </section>
 
-      {/* Why Attend Section */}
-      <section className="why-attend">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }} 
-          whileInView={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.8 }}
-        >
-          Why Attend?
-        </motion.h2>
-        <p>Gain insights, explore innovations, and connect with top professionals in tech.</p>
-      </section>
-
-      {/* Speakers Preview */}
-      <section className="speakers-section">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }} 
-          whileInView={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.8 }}
-        >
-          Featured Speakers
-        </motion.h2>
-        <div className="speakers-grid">
-          <motion.div 
-            className="speaker-card"
-            initial={{ opacity: 0, y: 20 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.8 }}
-          >
-            <img src="/assets/speaker1.jpg" alt="Speaker 1" />
-            <h3>John Doe</h3>
-            <p>AI Specialist, Google</p>
-          </motion.div>
-          <motion.div 
-            className="speaker-card"
-            initial={{ opacity: 0, y: 20 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <img src="/assets/speaker2.jpg" alt="Speaker 2" />
-            <h3>Jane Smith</h3>
-            <p>Blockchain Developer, Microsoft</p>
-          </motion.div>
+      {/* About Section with Scrolling Effect */}
+      <section className={`about-section ${scrolled ? "scrolled" : ""}`}>
+        <div className="about-content">
+          <h2>About the Conference</h2>
+          <p>
+            Our conference brings together industry experts, professionals, and enthusiasts to 
+            share insights, network, and explore new opportunities.
+          </p>
         </div>
       </section>
 
-      {/* Footer with Parallax Effect */}
-      <Parallax bgImage="/assets/footer-bg.jpg" strength={200} className="footer">
-        <div className="footer-content">
-          <p>&copy; 2025 Tech Conference. All rights reserved.</p>
+      {/* Featured Events */}
+      <section className="events-section">
+        <h2>Featured Events</h2>
+        <div className="event-list">
+          <EventCard title="Tech Innovators Summit" date="March 15, 2025" location="Virtual" />
+          <EventCard title="AI & Blockchain Conference" date="April 10, 2025" location="New York" />
         </div>
-      </Parallax>
+        <Button text="View All Events" onClick={() => navigate("/events")} />
+      </section>
+
+      {/* Contact Section */}
+      <section className="contact-section">
+        <h2>Contact Us</h2>
+        <div className="contact-form">
+          <InputField label="Email" type="email" name="email" placeholder="Enter your email" />
+          <InputField label="Message" type="text" name="message" placeholder="Your message..." />
+          <Button text="Send Message" />
+        </div>
+        <div className="contact-details">
+          <p>📞 +123 456 7890</p>
+          <p>📧 contact@conference.com</p>
+          <p>🌐 Follow us on Social Media</p>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 };

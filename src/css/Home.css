@@ -1,0 +1,67 @@
+/* Home Page Container */
+.home-container {
+    background-color: #071A1E;
+    color: #A8E6E7;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    text-align: center;
+    padding: 100px 20px;
+    background: linear-gradient(to right, #0D2A2E, #071A1E);
+  }
+  
+  .hero-content h1 {
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+  }
+  
+  .hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    color: #6C8A8B;
+  }
+  
+  /* About Section with Scrolling Effect */
+  .about-section {
+    position: relative;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #A8E6E7;
+    overflow: hidden;
+    will-change: transform;
+  }
+  
+  .about-content {
+    max-width: 600px;
+    padding: 20px;
+    transform: translateY(0);
+    transition: transform 0.5s ease-out;
+  }
+  
+  .about-section.scrolled .about-content {
+    transform: translateY(-30px);
+  }
+  
+  /* Featured Events Section */
+  .events-section {
+    padding: 80px 20px;
+    text-align: center;
+  }
+  
+  .events-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .event-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  

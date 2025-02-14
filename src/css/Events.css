@@ -1,0 +1,38 @@
+.event-page {
+    background-color: #071A1E;
+    color: #A8E6E7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .event-header {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .event-header h1 {
+    font-size: 2.5rem;
+    color: #23A6A7;
+  }
+  
+  .event-header p {
+    font-size: 1.2rem;
+    color: #6C8A8B;
+  }
+  
+  .event-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 40px;
+    width: 80%;
+    max-width: 1200px;
+  }
+  
+  .event-button-container {
+    text-align: center;
+    margin: 40px 0;
+  }
+  

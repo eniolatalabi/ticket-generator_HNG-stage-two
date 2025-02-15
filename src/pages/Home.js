@@ -1,12 +1,37 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import EventCard from "../components/EventCard";
 import Button from "../components/Button";
 import InputField from "../components/InputField";
+import AttendeeDetailsOverlay from "../components/AttendeeDetailsOverlay";
 import "../css/Home.css";
 
 const Home = () => {
   const navigate = useNavigate();
+
+  // Sample featured events data
+  const featuredEvents = [
+    {
+      id: 1,
+      title: "Tech Innovators Summit",
+      date: "March 15, 2025",
+      time: "10:00 AM - 5:00 PM",
+      location: "Virtual",
+      description:
+        "Join the brightest minds in tech as they discuss the future of innovation, AI, and blockchain. Network with industry leaders and explore cutting-edge technologies.",
+    },
+    {
+      id: 2,
+      title: "AI & Blockchain Conference",
+      date: "April 10, 2025",
+      time: "9:00 AM - 4:00 PM",
+      location: "New York",
+      description:
+        "Discover the latest advancements in AI and blockchain technology. Learn from experts and explore real-world applications of these transformative technologies.",
+    },
+  ];
+
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   return (
     <div className="home-container">
@@ -19,7 +44,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* About Section - Improved */}
+      {/* About Section */}
       <section className="about-section">
         <div className="about-content">
           <h2>About the Conference</h2>
@@ -36,17 +61,26 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Events */}
+      {/* Featured Events Section */}
       <section className="events-section">
         <h2>Featured Events</h2>
         <div className="event-list">
-          <EventCard title="Tech Innovators Summit" date="March 15, 2025" location="Virtual" />
-          <EventCard title="AI & Blockchain Conference" date="April 10, 2025" location="New York" />
+          {featuredEvents.map((event) => (
+            <EventCard
+              key={event.id}
+              title={event.title}
+              date={event.date}
+              time={event.time}
+              location={event.location}
+              description={event.description}
+              onGenerateTicket={() => setSelectedEvent(event)}
+            />
+          ))}
         </div>
         <Button text="View All Events" onClick={() => navigate("/events")} />
       </section>
 
-      {/* Contact Section - Improved */}
+      {/* Contact Section */}
       <section className="contact-section">
         <h2>Contact Us</h2>
         <div className="contact-form">
@@ -60,6 +94,14 @@ const Home = () => {
           <p>🌐 Follow us on Social Media</p>
         </div>
       </section>
+
+       {/* AttendeeDetailsOverlay Modal */}
+       {selectedEvent && (
+        <AttendeeDetailsOverlay
+          event={selectedEvent}
+          onClose={() => setSelectedEvent(null)} // Close modal
+        />
+      )}
     </div>
   );
 };

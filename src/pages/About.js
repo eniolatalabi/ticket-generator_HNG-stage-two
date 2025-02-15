@@ -1,26 +1,14 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import React from "react";
 import "../css/About.css";
 
 const About = () => {
-  const [scrolled, setScrolled] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 100);
-    };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <div className="about-container">
-      <Navbar />
-
       {/* About Section with Scroll Effect */}
-      <section className={`about-section ${scrolled ? "scrolled" : ""}`}>
+      <section className= "about-section" >
         <div className="about-content">
           <h1>About the Conference Ticket Generator</h1>
           <p>
@@ -48,8 +36,6 @@ const About = () => {
           real-world solutions and improving their technical expertise.
         </p>
       </section>
-
-      <Footer />
     </div>
   );
 };

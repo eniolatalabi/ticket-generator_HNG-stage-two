@@ -7,7 +7,7 @@
     "framer-motion": "^12.4.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-parallax": "^3.5.1",
+    "react-dropzone": "^14.3.5",
     "react-router-dom": "^7.1.5",
     "react-scripts": "5.0.1",
     "react-scroll": "^1.9.2"

@@ -305,7 +305,7 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <br />
-                <label htmlFor="message">About the project</label>
+                <label htmlFor="message">Special request</label>
                 <br />
                 <textarea
                   name="message"

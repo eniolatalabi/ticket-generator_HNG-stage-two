@@ -314,7 +314,6 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
                   value={specialRequest}
                   onChange={(e) => setSpecialRequest(e.target.value)}
                 ></textarea>
-                <p>0 / 50 characters</p>
                 <br />
                 <div className="ticket-button">
                   <button className="button1" type="button" onClick={handleStep2Back}>

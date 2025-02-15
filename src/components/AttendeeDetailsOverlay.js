@@ -12,33 +12,33 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
   const [specialRequest, setSpecialRequest] = useState("");
   const [avatarFile, setAvatarFile] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState(""); // New state for optional URL input
+  const [avatarUrl, setAvatarUrl] = useState(""); // For optional Cloudinary/image URL
   const [avatarError, setAvatarError] = useState("");
 
-  // The ref to link our hidden file input for manual triggering
+  // Ref for file input
   const fileInputRef = useRef(null);
 
-  // Utility: Validate that a URL ends with a common image extension
+  // Utility: Validate image URL
   const validateImageUrl = (url) => {
     const imageRegex = /\.(jpeg|jpg|png|gif|bmp|webp)$/i;
     return imageRegex.test(url);
   };
 
-  // STEP 1: Ticket Selection actions
+  // STEP 1: Ticket Selection
   const handleStep1Next = () => {
     setStep(2);
   };
 
-  // STEP 2: Attendee Details actions
+  // STEP 2: Attendee Details
   const handleStep2Back = () => {
     setStep(1);
   };
 
   const handleStep2Next = (e) => {
     e.preventDefault();
-    // Require either a file upload or a valid avatar URL
+    // Require at least one (either file or URL)
     if (!avatarFile && !avatarUrl) {
-      setAvatarError("Please upload a profile photo or provide an avatar URL.");
+      setAvatarError("Please upload a profile photo or enter a valid avatar URL.");
       return;
     }
     let finalAvatar = "";
@@ -50,12 +50,9 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
         finalAvatar = avatarUrl;
       }
     } else if (avatarFile) {
-      finalAvatar = avatarPreview; // from file upload (local preview URL)
+      finalAvatar = avatarPreview;
     }
-    // (Optional: Validate name, email, etc.)
     setStep(3);
-
-    // Prepare the ticket object
     const barcode = Math.random().toString(36).substring(7);
     const ticket = {
       event,
@@ -67,25 +64,35 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
       avatar: finalAvatar,
       barcode,
     };
-
-    // Save ticket (here to localStorage)
     const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
     tickets.push(ticket);
     localStorage.setItem("tickets", JSON.stringify(tickets));
-
-    // Optionally, call a callback to update TicketViews.js:
     if (onTicketBooked) onTicketBooked(ticket);
   };
 
-  // STEP 3: Confirmation actions
+  // STEP 3: Confirmation
   const handleDownloadTicket = () => {
-    // Implement your download logic here.
-    // For example, generate a PDF or download a JSON file.
-    alert("Ticket downloaded!");
+    // Create a JSON file with ticket info for download
+    const ticket = {
+      event,
+      ticketType,
+      numTickets,
+      name,
+      email,
+      specialRequest,
+      avatar: avatarPreview || avatarUrl,
+      barcode: Math.random().toString(36).substring(7),
+    };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(ticket, null, 2));
+    const downloadAnchorNode = document.createElement("a");
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "ticket.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
   };
 
   const handleBookAnother = () => {
-    // Reset values for a new ticket and go back to Step 1.
     setStep(1);
     setTicketType("Free");
     setNumTickets(1);
@@ -98,12 +105,13 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
     setAvatarError("");
   };
 
-  // Avatar upload actions (drag & drop and file selection)
+  // Avatar Upload (File)
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
       setAvatarFile(file);
       setAvatarPreview(URL.createObjectURL(file));
+      setAvatarUrl(""); // Clear any URL input
       setAvatarError("");
     } else {
       setAvatarError("Invalid file. Please select an image.");
@@ -117,6 +125,7 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
     if (file && file.type.startsWith("image/")) {
       setAvatarFile(file);
       setAvatarPreview(URL.createObjectURL(file));
+      setAvatarUrl(""); // Clear any URL input
       setAvatarError("");
     } else {
       setAvatarError("Invalid file. Please select an image.");
@@ -128,8 +137,7 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
     e.stopPropagation();
   };
 
-  // **The key fix**: Make sure we reference `fileInputRef.current`
-  // so `triggerFileSelect()` can call `click()` on the hidden file input.
+  // Trigger file select dialog
   const triggerFileSelect = () => {
     fileInputRef.current.click();
   };
@@ -261,7 +269,14 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
               <input
                 type="text"
                 value={avatarUrl}
-                onChange={(e) => setAvatarUrl(e.target.value)}
+                onChange={(e) => {
+                  setAvatarUrl(e.target.value);
+                  if (validateImageUrl(e.target.value)) {
+                    setAvatarPreview(e.target.value);
+                    setAvatarError("");
+                    setAvatarFile(null);
+                  }
+                }}
                 placeholder="https://example.com/your-image.jpg"
               />
             </div>
@@ -282,7 +297,7 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
                 <label htmlFor="email">Enter your email *</label>
                 <br />
                 <input
-                  placeholder="hello@avioflagos.io"
+                  placeholder="dst@hng.com"
                   required
                   type="email"
                   name="email"
@@ -294,7 +309,7 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
                 <br />
                 <textarea
                   name="message"
-                  placeholder="Textarea"
+                  placeholder="Enter Special Request"
                   required
                   value={specialRequest}
                   onChange={(e) => setSpecialRequest(e.target.value)}
@@ -306,7 +321,7 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
                     Back
                   </button>
                   <button className="button2" type="submit">
-                    Get My Free Ticket
+                    Get Ticket
                   </button>
                 </div>
               </form>
@@ -371,7 +386,7 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
                         </tr>
                         <tr className="row textarea">
                           <td colSpan="2">
-                            <label>Special request?</label>
+                            <label>Special request</label>
                             <div className="value textarea">
                               {specialRequest || "None"}
                             </div>
@@ -428,7 +443,7 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
           </div>
           <div className="ticket-button">
             <button className="button1" onClick={handleBookAnother}>
-              Book Another Ticket
+              Get Another Ticket
             </button>
             <button className="button2" onClick={handleDownloadTicket}>
               Download Ticket

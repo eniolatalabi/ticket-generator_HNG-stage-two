@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
+import html2canvas from "html2canvas";
 import "../css/AttendeeDetailsOverlay.css";
 
 const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
@@ -12,17 +13,21 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
   const [specialRequest, setSpecialRequest] = useState("");
   const [avatarFile, setAvatarFile] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState(""); // For optional Cloudinary/image URL
+  const [avatarUrl, setAvatarUrl] = useState(""); // Optional Cloudinary/image URL
   const [avatarError, setAvatarError] = useState("");
 
-  // Ref for file input
+  // Refs for file input and ticket container (for download)
   const fileInputRef = useRef(null);
+  const ticketRef = useRef(null);
 
   // Utility: Validate image URL
   const validateImageUrl = (url) => {
     const imageRegex = /\.(jpeg|jpg|png|gif|bmp|webp)$/i;
     return imageRegex.test(url);
   };
+
+  // Generate a consistent barcode
+  const generateBarcode = () => Math.random().toString(36).substring(7);
 
   // STEP 1: Ticket Selection
   const handleStep1Next = () => {
@@ -36,7 +41,6 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
 
   const handleStep2Next = (e) => {
     e.preventDefault();
-    // Require at least one (either file or URL)
     if (!avatarFile && !avatarUrl) {
       setAvatarError("Please upload a profile photo or enter a valid avatar URL.");
       return;
@@ -52,8 +56,7 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
     } else if (avatarFile) {
       finalAvatar = avatarPreview;
     }
-    setStep(3);
-    const barcode = Math.random().toString(36).substring(7);
+    const barcode = generateBarcode();
     const ticket = {
       event,
       ticketType,
@@ -68,28 +71,26 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
     tickets.push(ticket);
     localStorage.setItem("tickets", JSON.stringify(tickets));
     if (onTicketBooked) onTicketBooked(ticket);
+    setStep(3);
   };
 
-  // STEP 3: Confirmation
+  // STEP 3: Confirmation - Download Ticket as Image
   const handleDownloadTicket = () => {
-    // Create a JSON file with ticket info for download
-    const ticket = {
-      event,
-      ticketType,
-      numTickets,
-      name,
-      email,
-      specialRequest,
-      avatar: avatarPreview || avatarUrl,
-      barcode: Math.random().toString(36).substring(7),
-    };
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(ticket, null, 2));
-    const downloadAnchorNode = document.createElement("a");
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", "ticket.json");
-    document.body.appendChild(downloadAnchorNode);
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
+    if (!ticketRef.current) return;
+    html2canvas(ticketRef.current, { scale: 2 }).then((canvas) => {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "ticket.png";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          window.URL.revokeObjectURL(url);
+        }
+      }, "image/png");
+    });
   };
 
   const handleBookAnother = () => {
@@ -110,9 +111,11 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
       setAvatarFile(file);
-      setAvatarPreview(URL.createObjectURL(file));
-      setAvatarUrl(""); // Clear any URL input
+      const preview = URL.createObjectURL(file);
+      setAvatarPreview(preview);
+      setAvatarUrl(""); // Clear URL input when a file is selected
       setAvatarError("");
+      e.target.value = ""; // Reset input so same file can be reselected
     } else {
       setAvatarError("Invalid file. Please select an image.");
     }
@@ -124,8 +127,9 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith("image/")) {
       setAvatarFile(file);
-      setAvatarPreview(URL.createObjectURL(file));
-      setAvatarUrl(""); // Clear any URL input
+      const preview = URL.createObjectURL(file);
+      setAvatarPreview(preview);
+      setAvatarUrl(""); // Clear URL input when a file is dropped
       setAvatarError("");
     } else {
       setAvatarError("Invalid file. Please select an image.");
@@ -263,7 +267,7 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
                 </div>
               </div>
             </div>
-            {/* New input for optional Avatar URL */}
+            {/* Optional Avatar URL Input */}
             <div className="avatar-url">
               <label>Or enter Avatar URL (Cloudinary or image link)</label>
               <input
@@ -334,7 +338,7 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
 
   // RENDER PAGE 3: Final Ticket Confirmation
   const renderStep3 = () => (
-    <div className="contain">
+    <div className="contain" ref={ticketRef}>
       <div className="body">
         <div className="ticket-head">
           <h2>Ready</h2>
@@ -453,7 +457,7 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
     </div>
   );
 
-  // Main overlay content that switches based on step
+  // Main overlay content switching by step
   const overlayContent = (
     <>
       {step === 1 && renderStep1()}
@@ -464,7 +468,12 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
 
   return ReactDOM.createPortal(
     <div className="overlay">
-      <div className="overlay-content">{overlayContent}</div>
+      <div className="overlay-content">
+        <button className="close-button" onClick={onClose}>
+          ×
+        </button>
+        {overlayContent}
+      </div>
     </div>,
     document.getElementById("modal-root")
   );

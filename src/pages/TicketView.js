@@ -67,12 +67,53 @@ const MyTicketDisplay = ({ ticket, onDelete, onDownload }) => {
               <td><strong>Special Request:</strong></td>
               <td>{ticket.specialRequest || "None"}</td>
             </tr>
-            <tr>
-              <td><strong>Barcode:</strong></td>
-              <td>{ticket.barcode}</td>
-            </tr>
           </tbody>
         </table>
+      </div>
+      {/* Barcode Display (exactly as in the overlay) */}
+      <div className="uniqueBarcodeContainer">
+        <svg
+          id="barcode"
+          className="barcode"
+          width="172px"
+          height="70px"
+          viewBox="0 0 172 70"
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          style={{ transform: "translate(0,0)" }}
+        >
+          <rect x="0" y="0" width="172" height="70" style={{ fill: "none" }}></rect>
+          <g transform="translate(10, 10)" style={{ fill: "#FFFFFF" }}>
+            <rect x="0" y="0" width="3" height="50"></rect>
+            <rect x="4.5" y="0" width="1.5" height="50"></rect>
+            <rect x="9" y="0" width="4.5" height="50"></rect>
+            <rect x="16.5" y="0" width="4.5" height="50"></rect>
+            <rect x="22.5" y="0" width="3" height="50"></rect>
+            <rect x="27" y="0" width="4.5" height="50"></rect>
+            <rect x="33" y="0" width="1.5" height="50"></rect>
+            <rect x="36" y="0" width="4.5" height="50"></rect>
+            <rect x="42" y="0" width="3" height="50"></rect>
+            <rect x="49.5" y="0" width="1.5" height="50"></rect>
+            <rect x="57" y="0" width="1.5" height="50"></rect>
+            <rect x="60" y="0" width="3" height="50"></rect>
+            <rect x="66" y="0" width="3" height="50"></rect>
+            <rect x="70.5" y="0" width="3" height="50"></rect>
+            <rect x="75" y="0" width="6" height="50"></rect>
+            <rect x="82.5" y="0" width="3" height="50"></rect>
+            <rect x="88.5" y="0" width="1.5" height="50"></rect>
+            <rect x="94.5" y="0" width="1.5" height="50"></rect>
+            <rect x="99" y="0" width="4.5" height="50"></rect>
+            <rect x="106.5" y="0" width="1.5" height="50"></rect>
+            <rect x="111" y="0" width="3" height="50"></rect>
+            <rect x="115.5" y="0" width="4.5" height="50"></rect>
+            <rect x="121.5" y="0" width="1.5" height="50"></rect>
+            <rect x="124.5" y="0" width="3" height="50"></rect>
+            <rect x="132" y="0" width="3" height="50"></rect>
+            <rect x="139.5" y="0" width="4.5" height="50"></rect>
+            <rect x="145.5" y="0" width="1.5" height="50"></rect>
+            <rect x="148.5" y="0" width="3" height="50"></rect>
+          </g>
+        </svg>
       </div>
       <div className="uniqueTicketActions">
         <button className="uniqueDownloadBtn" onClick={handleDownloadClick}>

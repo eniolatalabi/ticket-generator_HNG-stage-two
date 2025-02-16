@@ -67,7 +67,6 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
       avatar: finalAvatar,
       barcode,
     };
-    // Save ticket persistently
     const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
     tickets.push(ticket);
     localStorage.setItem("tickets", JSON.stringify(tickets));
@@ -111,12 +110,12 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
-      setAvatarFile(file);
       const preview = URL.createObjectURL(file);
+      setAvatarFile(file);
       setAvatarPreview(preview);
-      setAvatarUrl(""); // Clear URL input when a file is selected
       setAvatarError("");
-      e.target.value = ""; // Reset input so same file can be reselected
+      // Reset file input value to allow reselecting the same file
+      e.target.value = null;
     } else {
       setAvatarError("Invalid file. Please select an image.");
     }
@@ -127,10 +126,9 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
     e.stopPropagation();
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith("image/")) {
-      setAvatarFile(file);
       const preview = URL.createObjectURL(file);
+      setAvatarFile(file);
       setAvatarPreview(preview);
-      setAvatarUrl(""); // Clear URL input when a file is dropped
       setAvatarError("");
     } else {
       setAvatarError("Invalid file. Please select an image.");
@@ -145,6 +143,17 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
   // Trigger file select dialog
   const triggerFileSelect = () => {
     fileInputRef.current.click();
+  };
+
+  // Avatar URL input change handler
+  const handleUrlChange = (e) => {
+    const url = e.target.value;
+    setAvatarUrl(url);
+    if (validateImageUrl(url)) {
+      setAvatarPreview(url);
+      setAvatarError("");
+      setAvatarFile(null);
+    }
   };
 
   // RENDER PAGE 1: Ticket Selection
@@ -274,17 +283,20 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
               <input
                 type="text"
                 value={avatarUrl}
-                onChange={(e) => {
-                  setAvatarUrl(e.target.value);
-                  if (validateImageUrl(e.target.value)) {
-                    setAvatarPreview(e.target.value);
-                    setAvatarError("");
-                    setAvatarFile(null);
-                  }
-                }}
+                onChange={handleUrlChange}
                 placeholder="https://example.com/your-image.jpg"
               />
             </div>
+            {/* Preview Container */}
+            {(avatarPreview || (avatarUrl && validateImageUrl(avatarUrl))) && (
+              <div className="preview-container">
+                <img
+                  className="preview-image"
+                  src={avatarPreview || avatarUrl}
+                  alt="Preview"
+                />
+              </div>
+            )}
             <hr className="line2" />
             <div className="form-container">
               <form onSubmit={handleStep2Next}>
@@ -337,7 +349,6 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
     </div>
   );
 
-  // RENDER PAGE 3: Final Ticket Confirmation
   const renderStep3 = () => (
     <div className="contain" ref={ticketRef}>
       <div className="body">
@@ -458,7 +469,6 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
     </div>
   );
 
-  // Main overlay content switching by step
   const overlayContent = (
     <>
       {step === 1 && renderStep1()}

@@ -67,6 +67,7 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
       avatar: finalAvatar,
       barcode,
     };
+    // Save ticket persistently
     const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
     tickets.push(ticket);
     localStorage.setItem("tickets", JSON.stringify(tickets));

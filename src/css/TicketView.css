@@ -1,27 +1,171 @@
-.ticket-view-container {
+/* Overall Page Container */
+.myTicketPage {
+  padding: 6rem 2rem;
+  background-color: #0d2a2e;
+  min-height: 100vh;
+  color: #a8e6e7;
+}
+
+/* Page Heading */
+.myTicketHeading {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+/* Ticket Section */
+.myTicketSection {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Grouping Tickets by Event */
+.myTicketGroup {
+  margin-bottom: 3rem;
+}
+
+.myEventTitle {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Grid Layout for Ticket Cards */
+.myTicketGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  place-self: center;
+  width: 50%;
+}
+
+/* Unique Ticket Card Styles */
+.uniqueTicketCard {
+  background-color: #071a1e;
+  border: 2px solid #23a6a7;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.uniqueTicketHeader {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.uniqueTicketHeader h3 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.uniqueTicketHeader p {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+}
+
+.ticketBookedAt {
+  font-size: 0.8rem;
+  color: #6c8a8b;
+}
+
+/* Ticket Image */
+.uniqueTicketImage {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 1rem 0;
+  border: 2px solid #23a6a7;
+}
+
+/* Ticket Details Table */
+.uniqueTicketDetails {
+  width: 100%;
+}
+
+.uniqueDetailTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.uniqueDetailTable td {
+  padding: 0.4rem;
+}
+
+.uniqueDetailTable td:first-child {
+  font-weight: bold;
+  width: 40%;
+}
+
+/* Ticket Card Actions */
+.uniqueTicketActions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.uniqueDownloadBtn,
+.uniqueDeleteBtn {
+  flex: 1;
+  background-color: #23a6a7;
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.uniqueDownloadBtn:hover,
+.uniqueDeleteBtn:hover {
+  background-color: #1d8e8f;
+}
+
+/* Clear All Tickets Button */
+.myClearContainer {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.myClearBtn {
+  background-color: #e63946;
+  color: #ffffff;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.myClearBtn:hover {
+  background-color: #c72f3b;
+}
+
+/* No Tickets Message */
+.myNoTicketMsg {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 3rem;
+}
+
+@media screen and (max-width: 780px) {
+  .myTicketGrid {
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
-    min-height: 100vh;
-    background-color: #071A1E;
-    color: #A8E6E7;
-  }
-  
-  .ticket-section {
+    gap: 1rem;
+    margin: 0 auto;
     width: 100%;
-    max-width: 800px;
-    text-align: center;
-    margin-top: 50px;
   }
-  
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
-  .no-ticket-message {
-    font-size: 1.2rem;
-    color: #6C8A8B;
-    margin-top: 20px;
-  }
-  
+}

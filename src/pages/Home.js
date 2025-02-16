@@ -9,7 +9,6 @@ import "../css/Home.css";
 const Home = () => {
   const navigate = useNavigate();
 
-  // Sample featured events data
   const featuredEvents = [
     {
       id: 1,
@@ -33,6 +32,43 @@ const Home = () => {
 
   const [selectedEvent, setSelectedEvent] = useState(null);
 
+  // --- Contact Form State & Handlers ---
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactMessage, setContactMessage] = useState("");
+  const [contactError, setContactError] = useState("");
+  const [contactSuccess, setContactSuccess] = useState("");
+
+  const validateEmail = (email) => {
+    const emailRegex = /\S+@\S+\.\S+/;
+    return emailRegex.test(email);
+  };
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    setContactError("");
+    setContactSuccess("");
+
+    if (!contactEmail) {
+      setContactError("Please enter your email address.");
+      return;
+    }
+    if (!validateEmail(contactEmail)) {
+      setContactError("Please enter a valid email address.");
+      return;
+    }
+    if (!contactMessage) {
+      setContactError("Please enter your message.");
+      return;
+    }
+
+    // Simulate sending email
+    setTimeout(() => {
+      setContactSuccess("Your message has been sent to demo@conference.com!");
+      setContactEmail("");
+      setContactMessage("");
+    }, 1000);
+  };
+
   return (
     <div className="home-container">
       {/* Hero Section */}
@@ -49,20 +85,20 @@ const Home = () => {
         <div className="about-content">
           <h2>About the Conference</h2>
           <p>
-            Join top industry leaders, professionals, and tech enthusiasts at our annual 
-            conference. Gain insights into the latest trends, engage in thought-provoking discussions, 
+            Join top industry leaders, professionals, and tech enthusiasts at our annual
+            conference. Gain insights into the latest trends, engage in thought-provoking discussions,
             and expand your professional network.
           </p>
           <p>
-            Whether you're a developer, entrepreneur, or just curious about emerging technologies, 
+            Whether you're a developer, entrepreneur, or just curious about emerging technologies,
             our conference is the place to be!
           </p>
           <Button text="Learn More" onClick={() => navigate("/about")} />
         </div>
       </section>
 
-      {/* Featured Events Section */}
-      <section className="events-section">
+      {/* Featured Events Section with ID for scrolling */}
+      <section id="featured-events" className="events-section">
         <h2>Featured Events</h2>
         <div className="event-list">
           {featuredEvents.map((event) => (
@@ -84,9 +120,25 @@ const Home = () => {
       <section className="contact-section">
         <h2>Contact Us</h2>
         <div className="contact-form">
-          <InputField label="Email" type="email" name="email" placeholder="Enter your email" />
-          <InputField label="Message" type="text" name="message" placeholder="Your message..." />
-          <Button text="Send Message" />
+          <InputField
+            label="Email"
+            type="email"
+            name="contactEmail"
+            placeholder="Enter your email"
+            value={contactEmail}
+            onChange={(e) => setContactEmail(e.target.value)}
+          />
+          <InputField
+            label="Message"
+            type="text"
+            name="contactMessage"
+            placeholder="Your message..."
+            value={contactMessage}
+            onChange={(e) => setContactMessage(e.target.value)}
+          />
+          <Button text="Send Message" onClick={handleContactSubmit} />
+          {contactError && <p className="error-message">{contactError}</p>}
+          {contactSuccess && <p className="success-message">{contactSuccess}</p>}
         </div>
         <div className="contact-details">
           <p>📞 +123 456 7890</p>
@@ -95,11 +147,11 @@ const Home = () => {
         </div>
       </section>
 
-       {/* AttendeeDetailsOverlay Modal */}
-       {selectedEvent && (
+      {/* AttendeeDetailsOverlay Modal */}
+      {selectedEvent && (
         <AttendeeDetailsOverlay
           event={selectedEvent}
-          onClose={() => setSelectedEvent(null)} // Close modal
+          onClose={() => setSelectedEvent(null)}
         />
       )}
     </div>

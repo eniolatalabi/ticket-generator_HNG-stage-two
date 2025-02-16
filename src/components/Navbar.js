@@ -1,13 +1,33 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../css/Navbar.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Toggle mobile menu
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  // Scroll smoothly to the "featured-events" section on Home
+  const scrollToEvents = () => {
+    if (window.location.pathname === "/") {
+      const el = document.getElementById("featured-events");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // If not on home, navigate there first then scroll
+      navigate("/");
+      setTimeout(() => {
+        const el = document.getElementById("featured-events");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 500);
+    }
   };
 
   return (
@@ -20,16 +40,32 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
-          <li><NavLink to="/events" activeClassName="active">Events</NavLink></li>
-          <li><NavLink to="/my-tickets" activeClassName="active">My Tickets</NavLink></li>
-          <li><NavLink to="/about" activeClassName="active">About</NavLink></li>
+          <li>
+            <NavLink to="/events" activeclassname="active">
+              Events
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/tickets" activeclassname="active">
+              My Tickets
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/about" activeclassname="active">
+              About
+            </NavLink>
+          </li>
           <li className="hide-on-desktop">
-            <Link to="/get-ticket" className="btn-primary">Get Ticket</Link>
+            <button className="btn-primary" onClick={scrollToEvents}>
+              Get Ticket
+            </button>
           </li>
         </ul>
 
-        {/* Right-Side Button */}
-        <Link to="/get-ticket" className="btn-primary hide-on-mobile">Get Ticket</Link>
+        {/* Right-Side Button for Desktop */}
+        <button className="btn-primary hide-on-mobile" onClick={scrollToEvents}>
+          Get Ticket
+        </button>
 
         {/* Hamburger Menu */}
         <div className={`hamburger ${menuOpen ? "open" : ""}`} onClick={toggleMenu}>

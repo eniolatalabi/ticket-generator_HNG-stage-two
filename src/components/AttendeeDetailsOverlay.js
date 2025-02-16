@@ -251,28 +251,28 @@ const AttendeeDetailsOverlay = ({ event, onClose, onTicketBooked }) => {
                 <p>Upload Profile Photo</p>
                 <div className="upload">
                   <form>
-                    <label className="file-label">
-                      <input
-                        accept="image/*"
-                        type="file"
-                        ref={fileInputRef}
-                        onChange={handleFileSelect}
-                        style={{ display: "none" }}
-                      />
-                      <div
-                        className="upload-area"
-                        onDrop={handleDrop}
-                        onDragOver={handleDragOver}
-                        onClick={triggerFileSelect}
-                      >
-                        <img
-                          alt="Upload Icon"
-                          className="cloud-icon"
-                          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAI7SURBVHgB7VbdUcMwDHZS+nfXh25ARigTYCYAJqBMAEwAGwATNEwAGyRMAEzQMEH70Lv+t3zq2UFVkzZt6RP57nSRbUmWJVmOUjly/Hc4agfM5/P6eDz2wDZc1+1i3C0Wi6E6NPr9voeNH0ejUQc0T6AWyahDAMZvUjZdITh5n9VuphSQQYT5gU2FoK/pdPpJA6TBcxznCqzHZPxSqXSt9gVC2mSn6wwGg9sNsm0WiUe1Dyif3GCv12tk1IlrBGOtdgG81zAQWEPD4fAhqy5kL5jeq9oG5oq9ysKS1W0cbJnK19IOc75DNtP2c+UEDAdQuGBT4Ww2u6tWqxGXm0wmHj5NokKh4KnVg7wbto66aWRywFwfKxzB+xNU8lmlUnlSWwJOR5aHg0Faj3CF1027Oa7YWa1W+1R/B4pUIJ2IHaCcqt97HMqQ74AQh7im9IGPzJwHJ1pc6MgyEKyjmdjhu7RmipPXxinnEeJ4gHfhDbYisL6ZeqKixFcTwdYx1r+XHOAgZ+QcFLq4Utp0PImmIYIPGV8KIBovOL0mnmoLn4UDcQpQbKHl0VrPEzYhGeqC6+oiwunvkhbgVF1tAm88aQ+K7HSM2uteQt5RuZwjjSNMH2CttxHS8UxvPkIYoTBDI6eporku8npZLpff2LrHlilt2vDrHylSTjnhUvXSo5TWpjH2U57qdqb/BRJKMNKSckYmbV5uHiRtvvZ/gK6eaaOkGKeAry+M4IaIA2ijQwXdpQKXMjly5LD4Abg0ZLbQRnXnAAAAAElFTkSuQmCC"
+                  <label className="file-label">
+                        <input
+                          accept="image/*"
+                          type="file"
+                          ref={fileInputRef}
+                          onChange={handleFileSelect}
+                          style={{ display: "none" }}
                         />
-                        <p>Drag &amp; drop or click to upload</p>
-                      </div>
-                    </label>
+                        <div
+                          className="upload-area"
+                          onDrop={handleDrop}
+                          onDragOver={handleDragOver}
+                          // Removed onClick here because the label already triggers the input
+                        >
+                          <img
+                            alt="Upload Icon"
+                            className="cloud-icon"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAI7SURBVHgB7VbdUcMwDHZS+nfXh25ARigTYCYAJqBMAEwAGwATNEwAGyRMAEzQMEH70Lv+t3zq2UFVkzZt6RP57nSRbUmWJVmOUjly/Hc4agfM5/P6eDz2wDZc1+1i3C0Wi6E6NPr9voeNH0ejUQc0T6AWyahDAMZvUjZdITh5n9VuphSQQYT5gU2FoK/pdPpJA6TBcxznCqzHZPxSqXSt9gVC2mSn6wwGg9sNsm0WiUe1Dyif3GCv12tk1IlrBGOtdgG81zAQWEPD4fAhqy5kL5jeq9oG5oq9ysKS1W0cbJnK19IOc75DNtP2c+UEDAdQuGBT4Ww2u6tWqxGXm0wmHj5NokKh4KnVg7wbto66aWRywFwfKxzB+xNU8lmlUnlSWwJOR5aHg0Faj3CF1027Oa7YWa1W+1R/B4pUIJ2IHaCcqt97HMqQ74AQh7im9IGPzJwHJ1pc6MgyEKyjmdjhu7RmipPXxinnEeJ4gHfhDbYisL6ZeqKixFcTwdYx1r+XHOAgZ+QcFLq4Utp0PImmIYIPGV8KIBovOL0mnmoLn4UDcQpQbKHl0VrPEzYhGeqC6+oiwunvkhbgVF1tAm88aQ+K7HSM2uteQt5RuZwjjSNMH2CttxHS8UxvPkIYoTBDI6eporku8npZLpff2LrHlilt2vDrHylSTjnhUvXSo5TWpjH2U57qdqb/BRJKMNKSckYmbV5uHiRtvvZ/gK6eaaOkGKeAry+M4IaIA2ijQwXdpQKXMjly5LD4Abg0ZLbQRnXnAAAAAElFTkSuQmCC"
+                          />
+                          <p>Drag &amp; drop or click to upload</p>
+                        </div>
+                      </label>
                   </form>
                 </div>
               </div>
